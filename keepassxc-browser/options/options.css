@@ -15,7 +15,6 @@ table td:last-child {
 
 input {
     background-color: var(--input-background-color);
-    border: 1px solid #292a2a;
 }
 
 input:invalid {
@@ -80,21 +79,7 @@ h2, hr {
     margin-top: 0;
 }
 
-/*#tab-connected-databases .color.dropdown .dropdown-menu {
-    width: 180px;
-    padding: 7px 10px;
-    line-height: 175%;
-}
-
-#tab-connected-databases .color.dropdown .dropdown-menu a {
-    margin-right: 3px;
-}
-
-#tab-connected-databases .color.dropdown a.dropdown-toggle img {
-    margin-right: 5px;
-}*/
-
-#manualUrl {
+.alert, #manualUrl {
     width: 75%;
 }
 
@@ -106,6 +91,10 @@ h2, hr {
     font-weight: normal;
 }
 
+#colorTheme {
+    width: 20%;
+}
+
 tr.clone {
     display: none;
 }
@@ -113,25 +102,6 @@ tr.clone {
 td.last-used,
 td.created {
     white-space: nowrap;
-}
-
-.bold {
-    font-weight: bold;
-}
-
-.radio.inline,
-.checkbox.inline {
-    display: inline-block;
-    white-space: nowrap;
-}
-
-.radio.inline + .radio.inline,
-.checkbox.inline + .checkbox.inline {
-    margin-left: 40px;
-}
-
-.checkUpdateKeePassXC {
-    margin-left: 40px;
 }
 
 #dangerousSettings {
@@ -168,7 +138,7 @@ td.created {
 
     input, input[type="checkbox"] {
         background-color: var(--input-background-color);
-        border-color: var(--input-border-color);
+        /*border-color: var(--input-border-color);*/
     }
 
     input:active {
