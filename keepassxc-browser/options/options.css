@@ -6,6 +6,7 @@ body {
 
 table td {
     width: 100%;
+    word-break: break-all;
 }
 
 table td:last-child {
@@ -29,25 +30,48 @@ main {
     background: var(--background-color);
 }
 
+footer {
+    bottom: 1rem;
+    color: #cbcfcb;
+    font-size: .75rem;
+    position: absolute;
+    text-transform: uppercase;
+}
+
+h2, hr {
+    margin-top: 0;
+}
+
+tr.clone {
+    display: none;
+}
+
+td.identifier, td.key, td.last-used, td.created {
+    white-space: nowrap;
+}
+
 .fa {
     margin-right: 0.2rem;
 }
 
 .card {
     margin-bottom: 2rem;
+    min-width: 720px;
     width: 75%;
 }
 
 .card-header {
     font-size: 1rem;
-    text-weight: bold;
+    font-weight: 500;
 }
 
 .sidebar {
     background-color: #2f2f2f !important;
     bottom: 0;
+    min-width: 160px !important;
     position: fixed;
     top: 0;
+    z-index: 100;
 }
 
 .nav-item, .sidebar-heading {
@@ -59,14 +83,6 @@ main {
     padding-bottom: 1.5rem;
 }
 
-footer {
-    bottom: 1rem;
-    color: #cbcfcb;
-    font-size: .75rem;
-    text-transform: uppercase;
-    position: fixed;
-}
-
 .tab {
     display: none;
 }
@@ -75,8 +91,12 @@ footer {
     margin-bottom: 2rem;
 }
 
-h2, hr {
-    margin-top: 0;
+.panel-title {
+    font-size: 14px !important;
+}
+
+.panel-group .panel-default .panel-heading {
+    background-color: #fff !important;
 }
 
 .alert, #manualUrl {
@@ -95,25 +115,8 @@ h2, hr {
     width: 20%;
 }
 
-tr.clone {
-    display: none;
-}
-
-td.last-used,
-td.created {
-    white-space: nowrap;
-}
-
 #dangerousSettings {
     display: none;
-}
-
-.panel-title {
-    font-size: 14px !important;
-}
-
-.panel-group .panel-default .panel-heading {
-    background-color: #fff !important;
 }
 
 @media (prefers-color-scheme: dark), (prefers-color-scheme: light) {
