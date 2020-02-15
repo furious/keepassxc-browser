@@ -4,17 +4,470 @@
     <title data-i18n="optionsTitle"></title>
       <meta charset="UTF-8">
       <link rel="stylesheet" href="../css/colors.css" />
-      <link rel="stylesheet" href="bootstrap.min.css" />
+      <link rel="stylesheet" href="../bootstrap/bootstrap.min.css" />
+      <link rel="stylesheet" href="../fonts/fork-awesome.min.css"/>
       <link rel="stylesheet" href="options.css" />
       <script src="../browser-polyfill.min.js"></script>
       <script src="../global.js"></script>
-      <script src="../jquery-3.3.1.min.js"></script>
-      <script src="bootstrap.min.js"></script>
+      <script src="../bootstrap/jquery-3.4.1.min.js"></script>
+      <script src="../bootstrap/bootstrap.min.js"></script>
       <script src="options.js"></script>
       <script src="../translate.js" defer></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+          <div id="sidebar">
+            <h6 class="sidebar-heading d-flex px-3 mt-4 mb-1 text-muted">KeePassXC-Browser</h6>
+            <ul class="nav flex-column mb-2">
+              <li class="active nav-item"><a class="nav-link" href="#general-settings" tabindex="1"><span data-i18n="optionsMenuGeneral"></span></a></li>
+              <li class="nav-item"><a class="nav-link" href="#connected-databases" tabindex="2"><span data-i18n="optionsMenuConnectedDatabases"></span></a></li>
+              <li class="nav-item"><a class="nav-link" href="#custom-fields" tabindex="3"><span data-i18n="optionsMenuCustomFields"></span></a></li>
+              <li class="nav-item"><a class="nav-link" href="#site-preferences" tabindex="4"><span data-i18n="optionsMenuSitePreferences"></span></a></li>
+              <li class="nav-item"><a class="nav-link" href="#about" tabindex="5"><span data-i18n="optionsMenuAbout"></span></a></li>
+            </ul>
+            <footer class="d-flex px-3 mt-4 mb-1 text-muted">
+              (C) 2017-2020 - KeePassXC Team
+            </footer>
+          </div>
+        </nav>
+
+        <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="content">
+
+            <!-- General Settings -->
+            <div class="tab" id="tab-general-settings">
+              <h2 class="tab-header" ata-i18n="optionsGeneralSettingsTab"></h2>
+
+              <h3 data-i18n="optionsThemeSelectionHeader"></h3>
+                <select id="colorTheme" data-i18n="[title]optionsThemeSelection">
+                  <option value="system" data-i18n="optionsThemeSystem"></option>
+                  <option value="dark" data-i18n="optionsThemeDark"></option>
+                  <option value="light" data-i18n="optionsThemeLight"></option>
+                </select>
+              <hr />
+            </div>
+
+            <!-- Connected Databases -->
+            <div class="tab" id="tab-connected-databases">
+              <h2 class="tab-header" data-i18n="optionsConnectedDatabasesTab"></h2>
+
+              <div class="card shadow">
+                <div class="card-body">
+                  <table class="table table-striped table-bordered table-hover">
+                    <caption data-i18n="optionsConnectedDatabasesText"></caption>
+                    <thead>
+                      <tr>
+                        <th scope="col"><span data-i18n="optionsDatabaseIdentifier"></span></th>
+                        <th scope="col"><span data-i18n="optionsDatabaseKey"></span></th>
+                        <th scope="col"><span data-i18n="optionsDatabaseLastUsed"></span></th>
+                        <th scope="col"><span data-i18n="optionsDatabaseCreated"></span></th>
+                        <th scope="col"><span data-i18n="optionsDatabaseDelete"></span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="empty">
+                        <td colspan="5"><span data-i18n="optionsConnectedDatabasesNotFound"></span></td>
+                      </tr>
+                      <tr class="clone">
+                        <td></td>
+                        <td></td>
+                        <td class="last-used"></td>
+                        <td class="created"></td>
+                        <td><button class="btn delete btn-danger"><i class="fa fa-remove" aria-hidden="true"></i><span data-i18n="optionsButtonRemove"></span></button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div>
+                    <button id="connect-button" class="btn btn-success"><i class="fa fa-link" aria-hidden="true"></i><span data-i18n="optionsButtonConnect"></span></button>
+                  </div>
+
+                  <div id="dialogDeleteConnectedDatabase" class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" data-i18n="optionsDatabasesRemoveIdentifier"></h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                          <p><span data-i18n="optionsDatabasesRemoveIdentifierConfirmFirst" i18n-placeholder="<strong></strong>"></span></p>
+                          <p class="help-block" data-i18n="optionsDatabasesRemoveIdentifierConfirmSecond"></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-remove" aria-hidden="true"></i><span data-i18n="optionsButtonCancel"></span></button>
+                          <button class="btn yes btn-primary" autofocus><i class="fa fa-check" aria-hidden="true"></i><span data-i18n="optionsButtonRemoveNow"></span></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custom login fields -->
+            <div class="tab" id="tab-custom-fields">
+              <h2 class="tab-header" data-i18n="optionsCustomFieldsTab"></h2>
+
+              <div class="card shadow">
+                <div class="card-body">
+                  <p>
+                    <span data-i18n="optionsCustomFieldsTabHelpTextFirst"></span>
+                    <br />
+                    <span data-i18n="optionsCustomFieldsTabHelpTextSecond"></span><em><span data-i18n="popupChooseCredentialsText"></span></em>.
+                  </p>
+                   <table class="table table-striped table-bordered table-hover">
+                    <caption data-i18n="optionsCustomFieldsTableCaption"></caption>
+                    <thead>
+                      <tr>
+                        <th scope="col"><span data-i18n="optionsColumnPageURL"></span></th>
+                        <th scope="col"><span data-i18n="optionsColumnDelete"></span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="empty">
+                        <td colspan="2"><span data-i18n="optionsCustomFieldsNotFound"></span></td>
+                      </tr>
+                      <tr class="clone">
+                        <td></td>
+                        <td><button class="btn delete btn-danger btn"><i class="fa fa-remove" aria-hidden="true"></i><span data-i18n="optionsButtonRemove"></span></button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div id="dialogDeleteCustomCredentialFields" class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 data-i18n="optionsCustomFieldsRemove"></h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                          <p><span data-i18n="optionsCustomFieldsConfirmation" i18n-placeholder="<strong></strong>"></span></p>
+                          <p class="help-block" data-i18n="optionsCustomFieldsConfirmationHelpText"></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-remove" aria-hidden="true"></i><span data-i18n="optionsButtonCancel"></span></button>
+                          <button class="btn yes btn-primary" autofocus><i class="fa fa-check" aria-hidden="true"></i><span data-i18n="optionsButtonRemoveNow"></span></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Site preferences -->
+            <div class="tab" id="tab-site-preferences">
+              <h2 class="tab-header" data-i18n="optionsSitePreferencesTab"></h2>
+
+              <div class="card shadow">
+                <div class="card-body">
+                  <p>
+                    <span data-i18n="optionsSitePreferencesTabHelpTextFirst"></span>
+                    <br />
+                    <span data-i18n="optionsSitePreferencesTabHelpTextSecond"></span> <em><span data-i18n="popupButtonIgnore"></span></em>.
+                    <br />
+                    <span data-i18n="optionsSitePreferencesTabHelpTextThird"></span>
+                    <br />
+                    <span data-i18n="optionsSitePreferencesTabHelpTextFourth"></span>
+                  </p>
+                  <hr />
+                  <div class="form-group">
+                    <label for="manualUrl" data-i18n="optionsSitePreferencesManualAddText"></label>
+                    <div class="input-group mb-3" id="manualUrlGroup">
+                      <input type="url" id="manualUrl" aria-label="Manual URL" pattern="ftp://.*|http://.*|https://.*" minlength="10">
+                      <div class="input-group-append">
+                        <button class="btn btn-sm btn-primary" type="button" id="sitePreferencesManualAdd"><i class="fa fa-plus" aria-hidden="true"></i><span data-i18n="optionsButtonAdd"></span></button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="alert alert-info mt-2" role="alert">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    <span data-i18n="optionsSitePreferencesManualAddHelp"></span>
+                  </div>
+
+                  <table class="table table-striped table-bordered table-hover">
+                    <caption data-i18n="optionsSitePreferencesTableCaption"></caption>
+                    <thead>
+                      <tr>
+                        <th scope="col"><span data-i18n="optionsColumnPageURL"></span></th>
+                        <th scope="col"><span data-i18n="optionsColumnIgnore"></span></th>
+                        <th scope="col"><span data-i18n="optionsColumnUsernameOnly"></span></th>
+                        <th scope="col"><span data-i18n="optionsColumnDelete"></span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="empty">
+                        <td colspan="4"><span data-i18n="optionsSitePreferencesNotFound"></span></td>
+                      </tr>
+                      <tr class="clone">
+                        <td></td>
+                        <td>
+                          <select name="ignore" data-i18n="[title]optionsSitePreferencesSelect">
+                            <option value="ignoreNothing" data-i18n="optionsSelectionNothing"></option>
+                            <option value="ignoreNormal" data-i18n="optionsSelectionNormal"></option>
+                            <option value="ignoreFull" data-i18n="optionsSelectionFull"></option>
+                          </select>
+                        </td>
+                        <td><input type="checkbox" name="usernameOnly" value="false" data-i18n="[title]optionsColumnUsernameOnly"/></td>
+                        <td><button class="btn delete btn-danger btn"><i class="fa fa-remove" aria-hidden="true"></i><span data-i18n="optionsButtonRemove"></span></button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div id="dialogDeleteSite" class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 data-i18n="optionsSitePreferencesRemove"></h3>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                          <p><span data-i18n="optionsSitePreferencesConfirmation" i18n-placeholder="<strong></strong>"></span></p>
+                          <p class="help-block" data-i18n="optionsSitePreferencesConfirmationHelpText"></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-remove" aria-hidden="true"></i><span data-i18n="optionsButtonCancel"></span></button>
+                          <button class="btn yes btn-primary" autofocus><i class="fa fa-check" aria-hidden="true"></i><span data-i18n="optionsButtonRemoveNow"></span></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- About -->
+            <div class="tab" id="tab-about">
+              <h2 class="tab-header" data-i18n="optionsAboutTab"></h2>
+
+              <div class="card shadow">
+                <div class="card-header">
+                  <i class="fa fa-desktop" aria-hidden="true"></i>
+                  Extension
+                </div>
+                <div class="card-body">
+                  <p>
+                    <a target="_blank" href="https://chrome.google.com/webstore/detail/keepassxc-browser/oboonakemofpalcgghocfoadofidjkkk" data-i18n="[title]openNewTab" tabindex="6">
+                    <span data-i18n="optionsAboutChrome"></span></a>
+                  </p>
+                  <p>
+                    <a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/keepassxc-browser/" data-i18n="[title]openNewTab" tabindex="7">
+                    <span data-i18n="optionsAboutMozilla"></span></a>
+                  </p>
+                  <p>
+                    <a target="_blank" href="https://github.com/keepassxreboot/keepassxc-browser" data-i18n="[title]openNewTab" tabindex="8">
+                    <span data-i18n="optionsAboutGitHub"></span></a>
+                  </p>
+                  <hr />
+                  <p>
+                    <span data-i18n="optionsAboutExtensionVersion" i18n-placeholder="<em class='versionCIP'></em>"></span>
+                  </p>
+                  <p>
+                    <span data-i18n="optionsAboutKeePassXCVersion" i18n-placeholder="<em class='versionKPH'></em>"></span>
+                  </p>
+                  <hr />
+                  <p>
+                    <span data-i18n="optionsAboutContributors"></span>:<br>
+                    <a target="_blank" href="https://github.com/pfn/" data-i18n="[title]openNewTab" tabindex="9">Perry Nguyen</a>, 
+                    <a target="_blank" href="http://lukas-schulze.de" data-i18n="[title]openNewTab" tabindex="10">Lukas Schulze</a>,
+                    <a target="_blank" href="https://github.com/smorks" data-i18n="[title]openNewTab" tabindex="11">Andy Brandt</a>, 
+                    <a target="_blank" href="https://github.com/varjolintu/" data-i18n="[title]openNewTab" tabindex="12">Sami Vänttinen</a>,
+                    <a target="_blank" href="https://github.com/keepassxreboot/keepassxc-browser" data-i18n="[title]openNewTab" tabindex="13">KeePassXC Team</a>.
+                  </p>
+                </div>
+              </div>
+
+               <div class="card shadow">
+                <div class="card-header">
+                  <i class="fa fa-bug" aria-hidden="true"></i>
+                  <span data-i18n="optionsAboutReportBugs"></span>
+                </div>
+                <div class="card-body">
+                  <p>
+                    <a target="_blank" href="https://github.com/keepassxreboot/keepassxc-browser/issues/new" tabindex="14"><span data-i18n="optionsAboutCreateNewIssue"></span></a>
+                    <p><span data-i18n="optionsAboutDebugInfo"></span>:
+                      <p>KeePassXC - <span class="kpxcVersion"></span>
+                      <br>KeePassXC-Browser - <span class="kpxcbrVersion"></span>
+                      <br>Operating system: <span class="kpxcbrOS"></span>
+                      <br>Browser: <span class="kpxcbrBrowser"></span>
+                    </p>
+                  </p>
+                </div>
+              </div>
+
+              <div class="card shadow">
+                <div class="card-header">
+                  <i class="fa fa-file-code-o" aria-hidden="true"></i>
+                  <span data-i18n="optionsAboutLicenses"></span>
+                </div>
+                <div class="card-body">
+                  <details>
+                    <summary>Bootstrap</summary>
+                    <pre>
+                      The MIT License (MIT)
+
+                      Copyright (c) 2011-2018 Twitter, Inc.
+                      Copyright (c) 2011-2018 The Bootstrap Authors
+
+                      Permission is hereby granted, free of charge, to any person obtaining a copy
+                      of this software and associated documentation files (the "Software"), to deal
+                      in the Software without restriction, including without limitation the rights
+                      to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+                      copies of the Software, and to permit persons to whom the Software is
+                      furnished to do so, subject to the following conditions:
+
+                      The above copyright notice and this permission notice shall be included in
+                      all copies or substantial portions of the Software.
+
+                      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                      AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+                      THE SOFTWARE.
+                    </pre>
+                  </details>
+
+                  <details>
+                    <summary>jQuery</summary>
+                    <pre>
+                      Copyright JS Foundation and other contributors, https://js.foundation/
+
+                      Permission is hereby granted, free of charge, to any person obtaining
+                      a copy of this software and associated documentation files (the
+                      "Software"), to deal in the Software without restriction, including
+                      without limitation the rights to use, copy, modify, merge, publish,
+                      distribute, sublicense, and/or sell copies of the Software, and to
+                      permit persons to whom the Software is furnished to do so, subject to
+                      the following conditions:
+
+                      The above copyright notice and this permission notice shall be
+                      included in all copies or substantial portions of the Software.
+
+                      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+                      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+                      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+                      NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+                      LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+                      OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+                      WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+                    </pre>
+                  </details>
+
+                  <details>
+                    <summary>Fork Awesome</summary>
+                    <pre>
+                      Copyright (c) 2018, Fork Awesome (https://forkawesome.github.io),
+                      with Reserved Font Name Fork Awesome.
+
+
+                      This Font Software is licensed under the SIL Open Font License, Version 1.1.
+                      This license is copied below, and is also available with a FAQ at:
+                      http://scripts.sil.org/OFL
+
+
+                      -----------------------------------------------------------
+                      SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+                      -----------------------------------------------------------
+
+                      PREAMBLE
+                      The goals of the Open Font License (OFL) are to stimulate worldwide
+                      development of collaborative font projects, to support the font creation
+                      efforts of academic and linguistic communities, and to provide a free and
+                      open framework in which fonts may be shared and improved in partnership
+                      with others.
+
+                      The OFL allows the licensed fonts to be used, studied, modified and
+                      redistributed freely as long as they are not sold by themselves. The
+                      fonts, including any derivative works, can be bundled, embedded,
+                      redistributed and/or sold with any software provided that any reserved
+                      names are not used by derivative works. The fonts and derivatives,
+                      however, cannot be released under any other type of license. The
+                      requirement for fonts to remain under this license does not apply
+                      to any document created using the fonts or their derivatives.
+
+                      DEFINITIONS
+                      "Font Software" refers to the set of files released by the Copyright
+                      Holder(s) under this license and clearly marked as such. This may
+                      include source files, build scripts and documentation.
+
+                      "Reserved Font Name" refers to any names specified as such after the
+                      copyright statement(s).
+
+                      "Original Version" refers to the collection of Font Software components as
+                      distributed by the Copyright Holder(s).
+
+                      "Modified Version" refers to any derivative made by adding to, deleting,
+                      or substituting -- in part or in whole -- any of the components of the
+                      Original Version, by changing formats or by porting the Font Software to a
+                      new environment.
+
+                      "Author" refers to any designer, engineer, programmer, technical
+                      writer or other person who contributed to the Font Software.
+
+                      PERMISSION & CONDITIONS
+                      Permission is hereby granted, free of charge, to any person obtaining
+                      a copy of the Font Software, to use, study, copy, merge, embed, modify,
+                      redistribute, and sell modified and unmodified copies of the Font
+                      Software, subject to the following conditions:
+
+                      1) Neither the Font Software nor any of its individual components,
+                      in Original or Modified Versions, may be sold by itself.
+
+                      2) Original or Modified Versions of the Font Software may be bundled,
+                      redistributed and/or sold with any software, provided that each copy
+                      contains the above copyright notice and this license. These can be
+                      included either as stand-alone text files, human-readable headers or
+                      in the appropriate machine-readable metadata fields within text or
+                      binary files as long as those fields can be easily viewed by the user.
+
+                      3) No Modified Version of the Font Software may use the Reserved Font
+                      Name(s) unless explicit written permission is granted by the corresponding
+                      Copyright Holder. This restriction only applies to the primary font name as
+                      presented to the users.
+
+                      4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+                      Software shall not be used to promote, endorse or advertise any
+                      Modified Version, except to acknowledge the contribution(s) of the
+                      Copyright Holder(s) and the Author(s) or with their explicit written
+                      permission.
+
+                      5) The Font Software, modified or unmodified, in part or in whole,
+                      must be distributed entirely under this license, and must not be
+                      distributed under any other license. The requirement for fonts to
+                      remain under this license does not apply to any document created
+                      using the Font Software.
+
+                      TERMINATION
+                      This license becomes null and void if any of the above conditions are
+                      not met.
+
+                      DISCLAIMER
+                      THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+                      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+                      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+                      OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+                      COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+                      INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+                      DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+                      FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+                      OTHER DEALINGS IN THE FONT SOFTWARE.
+                    </pre>
+                  </details>
+                </div>
+              </div>
+
+          </div>
+        </main>
+      </div>
+    </div>
+
+<!--
       <h3 class="muted"><img src="/icons/keepassxc_48x48.png" alt="logo"> KeePassXC-Browser</h3>
 
       <nav class="navbar navbar-default">
@@ -27,7 +480,7 @@
         </ul>
       </nav>
 
-      <!-- General Settings -->
+      
       <div class="tab" id="tab-general-settings">
         <h2 data-i18n="optionsGeneralSettingsTab"></h2>
         <hr />
@@ -254,384 +707,8 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> 
 
-      <!-- Connected Databases -->
-      <div class="tab" id="tab-connected-databases">
-        <h2 data-i18n="optionsConnectedDatabasesTab"></h2>
-        <hr />
-        <table class="table table-striped table-bordered table-hover">
-          <caption data-i18n="optionsConnectedDatabasesText"></caption>
-          <thead>
-            <tr>
-              <th scope="col"><span data-i18n="optionsDatabaseIdentifier"></span></th>
-              <th scope="col"><span data-i18n="optionsDatabaseKey"></span></th>
-              <th scope="col"><span data-i18n="optionsDatabaseLastUsed"></span></th>
-              <th scope="col"><span data-i18n="optionsDatabaseCreated"></span></th>
-              <th scope="col"><span data-i18n="optionsDatabaseDelete"></span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="empty">
-              <td colspan="5"><span data-i18n="optionsConnectedDatabasesNotFound"></span></td>
-            </tr>
-            <tr class="clone">
-              <td></td>
-              <td></td>
-              <td class="last-used"></td>
-              <td class="created"></td>
-              <td><button class="btn delete btn-danger"><span class="glyphicon glyphicon-remove-sign"></span> <span data-i18n="optionsButtonRemove"></span></button></td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="text-align: right">
-          <button id="connect-button" class="btn btn-primary"><span class="glyphicon glyphicon-link"></span> <span data-i18n="optionsButtonConnect"></span></button>
-        </div>
-
-        <div id="dialogDeleteConnectedDatabase" class="modal fade" tabindex="-1" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 class="modal-title" id="myModalLabel" data-i18n="optionsDatabasesRemoveIdentifier"></h3>
-              </div>
-              <div class="modal-body">
-                <p data-i18n="optionsDatabasesRemoveIdentifierConfirmFirst"></p>
-                <span class="bold"></span>
-                <p class="help-block" data-i18n="optionsDatabasesRemoveIdentifierConfirmSecond"></p>
-              </div>
-              <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> <span data-i18n="optionsButtonCancel"></span></button>
-                <button class="btn yes btn-primary" autofocus><span class="glyphicon glyphicon-ok"></span> <span data-i18n="optionsButtonRemoveNow"></span></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Custom credential fields -->
-      <div class="tab" id="tab-custom-fields">
-        <h2 data-i18n="optionsCustomFieldsTab"></h2>
-        <hr />
-        <p>
-          <span data-i18n="optionsCustomFieldsTabHelpTextFirst"></span>
-          <br />
-          <span data-i18n="optionsCustomFieldsTabHelpTextSecond"></span><em><span data-i18n="popupChooseCredentialsText"></span></em>.
-        </p>
-        <table class="table table-striped table-bordered table-hover">
-          <caption data-i18n="optionsCustomFieldsTableCaption"></caption>
-          <thead>
-            <tr>
-              <th scope="col"><span data-i18n="optionsColumnPageURL"></span></th>
-              <th scope="col"><span data-i18n="optionsColumnDelete"></span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="empty">
-              <td colspan="2"><span data-i18n="optionsCustomFieldsNotFound"></span></td>
-            </tr>
-            <tr class="clone">
-              <td></td>
-              <td><button class="btn delete btn-danger btn"><span class="glyphicon glyphicon-remove-sign"></span> <span data-i18n="optionsButtonRemove"></span></button></td>
-            </tr>
-          </tbody>
-        </table>
-        <div id="dialogDeleteCustomCredentialFields" class="modal fade" tabindex="-1" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel" data-i18n="optionsCustomFieldsRemove"></h3>
-              </div>
-              <div class="modal-body">
-                <p><span data-i18n="optionsCustomFieldsConfirmation" i18n-placeholder="<strong></strong>"></span></p>
-                <p class="help-block" data-i18n="optionsCustomFieldsConfirmationHelpText"></p>
-              </div>
-              <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> <span data-i18n="optionsButtonCancel"></span></button>
-                <button class="btn yes btn-primary" autofocus><span class="glyphicon glyphicon-ok"></span> <span data-i18n="optionsButtonRemoveNow"></span></button>
-              </div>
-            </div>
-          </div>
-       </div>
-      </div>
-
-      <!-- Site preferences -->
-      <div class="tab" id="tab-site-preferences">
-        <h2 data-i18n="optionsSitePreferencesTab"></h2>
-        <hr />
-        <p>
-          <span data-i18n="optionsSitePreferencesTabHelpTextFirst"></span>
-          <br />
-          <span data-i18n="optionsSitePreferencesTabHelpTextSecond"></span> <em><span data-i18n="popupButtonIgnore"></span></em>.
-          <br />
-          <span data-i18n="optionsSitePreferencesTabHelpTextThird"></span>
-          <br />
-          <span data-i18n="optionsSitePreferencesTabHelpTextFourth"></span>
-        </p>
-        <hr />
-        <div class="form-group">
-          <label for="manualUrl" data-i18n="optionsSitePreferencesManualAddText"></label>
-          <div class="control-group" id="manualUrlGroup">
-            <div class="input-append">
-              <input type="url" id="manualUrl" pattern="ftp://.*|http://.*|https://.*" minlength="10">
-              <button class="btn btn-sm btn-primary" id="sitePreferencesManualAdd" type="button"><span class="glyphicon glyphicon-plus-sign"></span> <span data-i18n="optionsButtonAdd"></span></button>
-            </div>
-          </div>
-        </div>
-        <hr />
-        <table class="table table-striped table-bordered table-hover">
-          <caption data-i18n="optionsSitePreferencesTableCaption"></caption>
-          <thead>
-            <tr>
-              <th scope="col"><span data-i18n="optionsColumnPageURL"></span></th>
-              <th scope="col"><span data-i18n="optionsColumnIgnore"></span></th>
-              <th scope="col"><span data-i18n="optionsColumnUsernameOnly"></span></th>
-              <th scope="col"><span data-i18n="optionsColumnDelete"></span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="empty">
-              <td colspan="4"><span data-i18n="optionsSitePreferencesNotFound"></span></td>
-            </tr>
-            <tr class="clone">
-              <td></td>
-              <td>
-                <select name="ignore" data-i18n="[title]optionsSitePreferencesSelect">
-                  <option value="ignoreNothing" data-i18n="optionsSelectionNothing"></option>
-                  <option value="ignoreNormal" data-i18n="optionsSelectionNormal"></option>
-                  <option value="ignoreFull" data-i18n="optionsSelectionFull"></option>
-                </select>
-              </td>
-              <td><input type="checkbox" name="usernameOnly" value="false" data-i18n="[title]optionsColumnUsernameOnly"/></td>
-              <td><button class="btn delete btn-danger btn"><span class="glyphicon glyphicon-remove-sign"></span> <span data-i18n="optionsButtonRemove"></span></button></td>
-            </tr>
-          </tbody>
-        </table>
-        <div id="dialogDeleteSite" class="modal fade" tabindex="-1" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel" data-i18n="optionsSitePreferencesRemove"></h3>
-              </div>
-              <div class="modal-body">
-                <p><span data-i18n="optionsSitePreferencesConfirmation" i18n-placeholder="<strong></strong>"></span></p>
-                <p class="help-block" data-i18n="optionsSitePreferencesConfirmationHelpText"></p>
-              </div>
-              <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span> <span data-i18n="optionsButtonCancel"></span></button>
-                <button class="btn yes btn-primary" autofocus><span class="glyphicon glyphicon-ok"></span> <span data-i18n="optionsButtonRemoveNow"></span></button>
-              </div>
-            </div>
-          </div>
-       </div>
-      </div>
-
-      <!-- About -->
-      <div class="tab" id="tab-about">
-        <h2 data-i18n="optionsAboutTab"></h2>
-        <hr />
-        <p>
-          <a target="_blank" href="https://chrome.google.com/webstore/detail/keepassxc-browser/oboonakemofpalcgghocfoadofidjkkk" data-i18n="[title]openNewTab" tabindex="6"><span data-i18n="optionsAboutChrome"></span></a>
-        </p>
-        <p>
-          <a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/keepassxc-browser/" data-i18n="[title]openNewTab" tabindex="7"><span data-i18n="optionsAboutMozilla"></span></a>
-        </p>
-        <p>
-          <a target="_blank" href="https://github.com/keepassxreboot/keepassxc-browser" data-i18n="[title]openNewTab" tabindex="8"><span data-i18n="optionsAboutGitHub"></span></a>
-        </p>
-        <hr />
-        <p>
-          <span data-i18n="optionsAboutExtensionVersion" i18n-placeholder="<em class='versionCIP'></em>"></span>
-        </p>
-        <p>
-          <span data-i18n="optionsAboutKeePassXCVersion" i18n-placeholder="<em class='versionKPH'></em>"></span>
-        </p>
-        <hr />
-        <p>
-          <span data-i18n="optionsAboutContributors"></span>:<br>
-          <a target="_blank" href="https://github.com/pfn/" data-i18n="[title]openNewTab" tabindex="9">Perry Nguyen</a>, 
-          <a target="_blank" href="http://lukas-schulze.de" data-i18n="[title]openNewTab" tabindex="10">Lukas Schulze</a>,
-          <a target="_blank" href="https://github.com/smorks" data-i18n="[title]openNewTab" tabindex="11">Andy Brandt</a>, 
-          <a target="_blank" href="https://github.com/varjolintu/" data-i18n="[title]openNewTab" tabindex="12">Sami Vänttinen</a>,
-          <a target="_blank" href="https://github.com/keepassxreboot/keepassxc-browser" data-i18n="[title]openNewTab" tabindex="13">KeePassXC Team</a>.
-        </p>
-        <hr />
-        <p>
-          <span data-i18n="optionsAboutLicenses"></span>:<br>
-
-          <details>
-            <summary>Bootstrap</summary>
-            <pre>
-              The MIT License (MIT)
-
-              Copyright (c) 2011-2018 Twitter, Inc.
-              Copyright (c) 2011-2018 The Bootstrap Authors
-
-              Permission is hereby granted, free of charge, to any person obtaining a copy
-              of this software and associated documentation files (the "Software"), to deal
-              in the Software without restriction, including without limitation the rights
-              to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-              copies of the Software, and to permit persons to whom the Software is
-              furnished to do so, subject to the following conditions:
-
-              The above copyright notice and this permission notice shall be included in
-              all copies or substantial portions of the Software.
-
-              THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-              IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-              FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-              AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-              LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-              OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-              THE SOFTWARE.
-            </pre>
-          </details>
-
-          <details>
-            <summary>jQuery</summary>
-            <pre>
-              Copyright JS Foundation and other contributors, https://js.foundation/
-
-              Permission is hereby granted, free of charge, to any person obtaining
-              a copy of this software and associated documentation files (the
-              "Software"), to deal in the Software without restriction, including
-              without limitation the rights to use, copy, modify, merge, publish,
-              distribute, sublicense, and/or sell copies of the Software, and to
-              permit persons to whom the Software is furnished to do so, subject to
-              the following conditions:
-
-              The above copyright notice and this permission notice shall be
-              included in all copies or substantial portions of the Software.
-
-              THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-              EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-              MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-              NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-              LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-              OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-              WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-            </pre>
-          </details>
-
-          <details>
-            <summary>Fork Awesome</summary>
-            <pre>
-              Copyright (c) 2018, Fork Awesome (https://forkawesome.github.io),
-              with Reserved Font Name Fork Awesome.
-
-
-              This Font Software is licensed under the SIL Open Font License, Version 1.1.
-              This license is copied below, and is also available with a FAQ at:
-              http://scripts.sil.org/OFL
-
-
-              -----------------------------------------------------------
-              SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
-              -----------------------------------------------------------
-
-              PREAMBLE
-              The goals of the Open Font License (OFL) are to stimulate worldwide
-              development of collaborative font projects, to support the font creation
-              efforts of academic and linguistic communities, and to provide a free and
-              open framework in which fonts may be shared and improved in partnership
-              with others.
-
-              The OFL allows the licensed fonts to be used, studied, modified and
-              redistributed freely as long as they are not sold by themselves. The
-              fonts, including any derivative works, can be bundled, embedded,
-              redistributed and/or sold with any software provided that any reserved
-              names are not used by derivative works. The fonts and derivatives,
-              however, cannot be released under any other type of license. The
-              requirement for fonts to remain under this license does not apply
-              to any document created using the fonts or their derivatives.
-
-              DEFINITIONS
-              "Font Software" refers to the set of files released by the Copyright
-              Holder(s) under this license and clearly marked as such. This may
-              include source files, build scripts and documentation.
-
-              "Reserved Font Name" refers to any names specified as such after the
-              copyright statement(s).
-
-              "Original Version" refers to the collection of Font Software components as
-              distributed by the Copyright Holder(s).
-
-              "Modified Version" refers to any derivative made by adding to, deleting,
-              or substituting -- in part or in whole -- any of the components of the
-              Original Version, by changing formats or by porting the Font Software to a
-              new environment.
-
-              "Author" refers to any designer, engineer, programmer, technical
-              writer or other person who contributed to the Font Software.
-
-              PERMISSION & CONDITIONS
-              Permission is hereby granted, free of charge, to any person obtaining
-              a copy of the Font Software, to use, study, copy, merge, embed, modify,
-              redistribute, and sell modified and unmodified copies of the Font
-              Software, subject to the following conditions:
-
-              1) Neither the Font Software nor any of its individual components,
-              in Original or Modified Versions, may be sold by itself.
-
-              2) Original or Modified Versions of the Font Software may be bundled,
-              redistributed and/or sold with any software, provided that each copy
-              contains the above copyright notice and this license. These can be
-              included either as stand-alone text files, human-readable headers or
-              in the appropriate machine-readable metadata fields within text or
-              binary files as long as those fields can be easily viewed by the user.
-
-              3) No Modified Version of the Font Software may use the Reserved Font
-              Name(s) unless explicit written permission is granted by the corresponding
-              Copyright Holder. This restriction only applies to the primary font name as
-              presented to the users.
-
-              4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
-              Software shall not be used to promote, endorse or advertise any
-              Modified Version, except to acknowledge the contribution(s) of the
-              Copyright Holder(s) and the Author(s) or with their explicit written
-              permission.
-
-              5) The Font Software, modified or unmodified, in part or in whole,
-              must be distributed entirely under this license, and must not be
-              distributed under any other license. The requirement for fonts to
-              remain under this license does not apply to any document created
-              using the Font Software.
-
-              TERMINATION
-              This license becomes null and void if any of the above conditions are
-              not met.
-
-              DISCLAIMER
-              THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-              EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
-              MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-              OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
-              COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-              INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
-              DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-              FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
-              OTHER DEALINGS IN THE FONT SOFTWARE.
-            </pre>
-          </details>
-        </p>
-        <hr />
-        <p>
-          <span data-i18n="optionsAboutReportBugs"></span>:<br>
-          <a target="_blank" href="https://github.com/keepassxreboot/keepassxc-browser/issues/new" tabindex="14"><span data-i18n="optionsAboutCreateNewIssue"></span></a>
-          <p><span data-i18n="optionsAboutDebugInfo"></span>:
-            <p>KeePassXC - <span class="kpxcVersion"></span>
-            <br>KeePassXC-Browser - <span class="kpxcbrVersion"></span>
-            <br>Operating system: <span class="kpxcbrOS"></span>
-            <br>Browser: <span class="kpxcbrBrowser"></span>
-          </p>
-        </p>
-      </div>
-      <hr>
-      <div class="footer">
-        <p>(C) 2017-2019 - KeePassXC Team</p>
-      </div>
-    </div> <!-- /container -->
+      -->
   </body>
 </html>
