@@ -440,6 +440,10 @@ options.initSitePreferences = function() {
         options.saveSettings();
     });
 
+    $('.was-validated').submit(function(e) {
+        e.preventDefault();
+    });
+
     $('#manualUrl').keyup(function(event) {
         if (event.key === 'Enter') {
             $('#sitePreferencesManualAdd').click();
