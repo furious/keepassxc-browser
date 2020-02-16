@@ -134,7 +134,7 @@ div.kpxc-banner-dialog .list-group-item:last-child {
 
 div.kpxc-banner-dialog .list-group-item:hover {
     cursor: pointer !important;
-    background-color: #eee !important;
+    background-color: var(--table-hover-color) !important;
 }
 
 @media (prefers-color-scheme: dark) {

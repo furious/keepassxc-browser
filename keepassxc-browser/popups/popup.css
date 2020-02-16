@@ -141,4 +141,8 @@ body {
         background-color: var(--table-hover-color) !important;
         color: var(--text-color) !important;
     }
+    
+    #login-filter {
+        color: var(--text-color) !important;
+    }
 }

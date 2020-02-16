@@ -1,7 +1,18 @@
 body {
+    background-color: var(--background-color);
     font-size: .875rem;
     padding-top: 20px;
     padding-bottom: 60px;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    text-decoration: none;
 }
 
 table td {
@@ -55,14 +66,23 @@ td.identifier, td.key, td.last-used, td.created {
 }
 
 .card {
+    background-color: var(--input-background-color);
+    border: 1px solid rgba(0,0,0,.125);
     margin-bottom: 2rem;
     min-width: 720px;
     width: 75%;
 }
 
 .card-header {
+    background-color: var(--card-header-color);
+    color: var(--text-color);
     font-size: 1rem;
     font-weight: 500;
+}
+
+.card-body {
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 .sidebar {
@@ -89,14 +109,6 @@ td.identifier, td.key, td.last-used, td.created {
 
 .tab-header {
     margin-bottom: 2rem;
-}
-
-.panel-title {
-    font-size: 14px !important;
-}
-
-.panel-group .panel-default .panel-heading {
-    background-color: #fff !important;
 }
 
 .alert, #manualUrl {
@@ -135,13 +147,13 @@ td.identifier, td.key, td.last-used, td.created {
     }
 
     body, pre {
-        background: var(--background-color);
+        background-color: var(--background-color);
         color: var(--text-color);
     }
 
     input, input[type="checkbox"] {
-        background-color: var(--input-background-color);
-        /*border-color: var(--input-border-color);*/
+        background-color: var(--background-color) !important;
+        border-color: var(--card-border-color) !important;
     }
 
     input:active {
@@ -176,11 +188,38 @@ td.identifier, td.key, td.last-used, td.created {
         color: var(--text-color);
     }
 
+    .table > thead, tbody {
+        color: var(--text-color);
+    }
+
     .table-striped > tbody > tr:nth-of-type(odd) {
         background-color: var(--table-hover-color);
     }
 
     .table-striped > tbody > tr:hover {
         background-color: var(--table-hover-color);
+    }
+
+    .close {
+        color: var(--text-color);
+    }
+
+    .card {
+        background-color: var(--input-background-color);
+        border-color: var(--card-border-color);
+    }
+
+    .card-header {
+        background-color: var(--card-header-color);
+        color: var(--text-color);
+    }
+
+    .card-header:first-child {
+        border-radius: 0;
+    }
+
+    .card-body {
+        background-color: var(--input-background-color);
+        color: var(--text-color);
     }
 }
