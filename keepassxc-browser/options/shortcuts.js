@@ -94,7 +94,6 @@ function handleControl() {
 // Possible types: success, info, danger
 function createBanner(type, shortcut) {
     const banner = document.createElement('div');
-    //banner.classList.add('alert', 'alert-dismissible', 'alert-' + type, 'fade', 'in');
     banner.classList.add('alert', 'alert-dismissible', 'alert-' + type);
 
     if (type === 'success') {
