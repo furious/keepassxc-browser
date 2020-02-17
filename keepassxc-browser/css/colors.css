@@ -7,8 +7,8 @@
     --input-background-color: #fff;
     --input-border: 1px solid #2b4d1a;
     --input-border-color: #292a2a;
-    --link-color: #6cac4d;
-    --link-hover-color: #3a8233;
+    --link-color: #3a8233;
+    --link-hover-color: #429f14;
     --table-hover-color: #f9f9f9;
     --text-color: #000;
 }
@@ -24,7 +24,7 @@
         --input-border: 1px solid #2b4d1a;
         --input-border-color: #292a2a;
         --link-color: #6cac4d;
-        --link-hover-color: #3a8233;
+        --link-hover-color: #429f14;
         --table-hover-color: #474948;
         --text-color: #cbcfcb;
     }
@@ -41,7 +41,7 @@
     --input-border: 1px solid #2b4d1a;
     --input-border-color: #292a2a;
     --link-color: #6cac4d;
-    --link-hover-color: #3a8233;
+    --link-hover-color: #429f14;
     --table-hover-color: #474948;
     --text-color: #cbcfcb;
 }
@@ -55,8 +55,8 @@
     --input-background-color: #fff;
     --input-border: 1px solid #2b4d1a;
     --input-border-color: #292a2a;
-    --link-color: #6cac4d;
-    --link-hover-color: #3a8233;
-    --table-hover-color: #f9f9f9;
+    --link-color: #3a8233;
+    --link-hover-color: #429f14;
+    --table-hover-color: #020202;
     --text-color: #000;
 }
