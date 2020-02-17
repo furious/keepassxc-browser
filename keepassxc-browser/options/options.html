@@ -17,8 +17,11 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
-          <div id="sidebar">
+        <nav class="col-md-2 bg-dark sidebar">
+          <button class="navbar-dark navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse" id="sidebar">
             <h6 class="sidebar-heading d-flex px-3 mt-4 mb-1 text-muted">KeePassXC-Browser</h6>
             <ul class="nav flex-column mb-2">
               <li class="active nav-item"><a class="nav-link" href="#general-settings" tabindex="1"><span data-i18n="optionsMenuGeneral"></span></a></li>
@@ -33,7 +36,6 @@
           </div>
         </nav>
 
-        <!--<main class="col-md-9 ml-sm-auto col-lg-10 px-4">-->
         <main class="col-md-9 ml-sm-auto col-md-10 px-4">
           <div class="content">
 
